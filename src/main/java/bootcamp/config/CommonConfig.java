@@ -2,6 +2,7 @@ package bootcamp.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import bootcamp.model.products.Product;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
+@EnableAsync
 public class CommonConfig {
 	
 	@Qualifier("dataSource")
