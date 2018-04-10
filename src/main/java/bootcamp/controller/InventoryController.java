@@ -1,5 +1,6 @@
 package bootcamp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import bootcamp.model.inventory.Inventory;
+import bootcamp.model.inventory.InventoryItem;
 import bootcamp.model.products.Product;
 import bootcamp.service.InventoryService;
 
@@ -22,8 +23,9 @@ public class InventoryController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping("inventory/all")
-	public Inventory showInventory(){
+	public List<InventoryItem> showInventory(){
 		return inventoryService.getInventory();
+		
 	}
 //	
 //	@RequestMapping(name = "inventory/receive", method=RequestMethod.POST)

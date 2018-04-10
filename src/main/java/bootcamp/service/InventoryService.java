@@ -1,6 +1,7 @@
 package bootcamp.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import bootcamp.dao.InventoryDao;
-import bootcamp.model.inventory.Inventory;
 import bootcamp.model.inventory.InventoryItem;
 import bootcamp.model.products.Product;
 
@@ -31,11 +31,8 @@ public class InventoryService {
 //		inventoryList.addAll(products);
 //	}
 
-	public Inventory getInventory(){
-		List<InventoryItem> inventoryList = inventoryDao.getInventory();
-		Inventory inventory = new Inventory();
-		inventory.setList(inventoryList);
-		return inventory;
+	public List<InventoryItem> getInventory(){
+		return inventoryDao.getInventory();
 	}
 	
 	@Scheduled(cron = "${inventory.status.schedule}")
