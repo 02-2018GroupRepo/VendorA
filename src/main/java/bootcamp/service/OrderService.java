@@ -44,6 +44,8 @@ public class OrderService {
 		//pass orderList to other function
 	}
 
+	public void
+
 	public void makeApiCalls() {
 		retrieveInventory(0);
 		retrieveInventory(1);
@@ -52,15 +54,19 @@ public class OrderService {
 
 	@Async
 	public void retrieveInventory(int i){
+		UriComponentsBuilder builder;
 		switch(i){
 			case 0:
-				supplier_A = restTemplate.getForObject(supplier_a_url,List.class );
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/inventory/all").port(8080)
+				supplier_A = restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 			case 1:
-				supplier_B = restTemplate.getForObject(supplier_b_url,List.class );
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/inventory/all").port(8080)
+				supplier_B = restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 			case 2:
-				supplier_C = restTemplate.getForObject(supplier_c_url,List.class );
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/inventory/all").port(8080)
+				supplier_C = restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 				default:
 					break;
