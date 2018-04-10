@@ -21,7 +21,8 @@ public class InventoryService {
 	InventoryDao inventoryDao;
 	
 	@Autowired
-//	private List<Product> inventoryList;
+	OrderService orderService;
+	
 	private static final Logger log = LoggerFactory.getLogger(InventoryService.class);
 	 
 	 @Autowired
@@ -33,6 +34,13 @@ public class InventoryService {
 
 	public List<InventoryItem> getInventory(){
 		return inventoryDao.getInventory();
+	}
+	
+	public void checkInventoryForRestock() {
+		List<InventoryItem> lowInventoryList = inventoryDao.getLowInventory();
+		if (lowInventoryList.isEmpty() == false) {
+			orderService.createOrder(lowInventoryList);
+		}
 	}
 	
 	@Scheduled(cron = "${inventory.status.schedule}")

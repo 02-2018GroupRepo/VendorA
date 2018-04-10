@@ -1,6 +1,8 @@
 #A combination of gitignore files for different IDEs and OS
 # Compiled class file
 *.class
+.factorypath
+.idea
 
 # Log file
 *.log

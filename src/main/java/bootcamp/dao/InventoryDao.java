@@ -21,4 +21,9 @@ public class InventoryDao {
 	public List<InventoryItem> getInventory() {
 		return jdbctemplate.query(GET_ALL_INVENTORY_SQL, new BeanPropertyRowMapper<>(InventoryItem.class));
 	}
+	
+	public List<InventoryItem> getLowInventory(){
+		return jdbctemplate.query(GET_LOW_INVENTORY_SQL, new BeanPropertyRowMapper<>(InventoryItem.class));
+	}
+	
 }

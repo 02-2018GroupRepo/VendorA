@@ -1,38 +1,37 @@
 package bootcamp
 
-import bootcamp.model.products.Product
+import bootcamp.dao.InventoryDao
+import bootcamp.model.inventory.InventoryItem
 import bootcamp.service.InventoryService
+import bootcamp.service.OrderService
 import spock.lang.Specification
 
-
 class InventoryServiceSpec extends Specification {
-	
-	def "Adding a Product List to the Inventory List"(){
+	def "Check for restock"() {
+		given: "An inventory service"
+		InventoryService inventoryService = new InventoryService();
 		
-		given: "An InventoryService"
-		InventoryService inventoryService = new InventoryService()
+		and: "An inventory dao"
+		InventoryDao inventoryDao = Stub(InventoryDao.class);
 		
-		and: "an empty inventory list"
+		and: "An order service"
+		OrderService orderService = Mock(OrderService.class)
+		inventoryService.orderService = orderService;
 		
-		inventoryService.inventoryList = new ArrayList<Product>();
+		and: "Low inventory is returned"
+		InventoryItem inventoryItem = new InventoryItem();
+		inventoryItem.setId(1);
+		inventoryItem.setRetail_price(1.00);
+		inventoryItem.setNumber_available(5);
+		List<InventoryItem> lowInventoryList = new ArrayList<InventoryItem>();
+		lowInventoryList.add(inventoryItem);
+		inventoryDao.getLowInventory() >> lowInventoryList;
+		inventoryService.inventoryDao = inventoryDao;
 		
-		and: "A list of 1 product"
-		List<Product> productList = new ArrayList<>();
-		Product p1 = new Product();
-		productList.add(p1);
+		when: "Check for restock is called"
+		inventoryService.checkInventoryForRestock();
 		
-		when: "inventory is received"
-		inventoryService.receiveInventory(productList);
-		
-		then: "The inventory list count should be 1"
-		inventoryService.inventoryList.size() == 1;
-		
-		and: "The inventorylist should contain the product p1"
-		inventoryService.inventoryList.contains(p1) == true;
-		
-		
+		then: "Order service makes order"
+		1 * orderService.createOrder(lowInventoryList);
 	}
-	
-   
-
 }
