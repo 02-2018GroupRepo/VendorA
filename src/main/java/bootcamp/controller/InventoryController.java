@@ -3,6 +3,7 @@ package bootcamp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import bootcamp.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class InventoryController {
 	@Autowired
 	private InventoryService inventoryService;
 
+	@Autowired
+	private OrderService orderService;
+
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping("inventory/all")
@@ -27,6 +31,7 @@ public class InventoryController {
 		return inventoryService.getInventory();
 		
 	}
+
 //	
 //	@RequestMapping(name = "inventory/receive", method=RequestMethod.POST)
 //    public void getProduct(@RequestBody List<Product> products) {

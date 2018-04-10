@@ -39,7 +39,7 @@ public class InventoryService {
 	public void checkInventoryForRestock() {
 		List<InventoryItem> lowInventoryList = inventoryDao.getLowInventory();
 		if (lowInventoryList.isEmpty() == false) {
-			orderService.createOrder(lowInventoryList);
+			orderService.createOrderList(lowInventoryList);
 		}
 	}
 	
