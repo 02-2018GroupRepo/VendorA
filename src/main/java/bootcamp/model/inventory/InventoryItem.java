@@ -1,5 +1,30 @@
 package bootcamp.model.inventory;
 
-public class InventoryItem {
+import java.math.BigDecimal;
 
+public class InventoryItem {
+	private int id;
+	private int quantity;
+	private BigDecimal price;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	
+	
 }
