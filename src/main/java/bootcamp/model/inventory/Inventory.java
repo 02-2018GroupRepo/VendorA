@@ -10,7 +10,7 @@ public class Inventory {
 		return inventoryList;
 	}
 	
-	public void addToList(InventoryItem item) {
-		inventoryList.add(item);
+	public void setList(List<InventoryItem> itemList) {
+		this.inventoryList = itemList;
 	}
 }

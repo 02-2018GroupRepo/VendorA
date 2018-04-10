@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 public class InventoryItem {
 	private int id;
-	private int quantity;
-	private BigDecimal price;
+	private int number_available;
+	private BigDecimal retail_price;
 	
 	public int getId() {
 		return id;
@@ -13,18 +13,16 @@ public class InventoryItem {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getQuantity() {
-		return quantity;
+	public int getNumber_available() {
+		return number_available;
 	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setNumber_available(int number_available) {
+		this.number_available = number_available;
 	}
-	public BigDecimal getPrice() {
-		return price;
+	public BigDecimal getRetail_price() {
+		return retail_price;
 	}
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setRetail_price(BigDecimal retail_price) {
+		this.retail_price = retail_price;
 	}
-	
-	
 }

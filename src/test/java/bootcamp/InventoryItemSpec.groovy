@@ -28,8 +28,11 @@ class InventoryItemSpec extends Specification {
 		inventoryItem.setId(1);
 		inventoryItem.setPrice(1.00);
 		inventoryItem.setQuantity(5);
+		and: "An inventory list"
+		List<InventoryItem> inventoryList = new ArrayList<>();
+		inventoryList.add(inventoryItem);
 		when: "Inventory item is added to list"
-		inventory.addToList(inventoryItem);
+		inventory.setList(inventoryList);
 		then: "Item should have been added"
 		inventory.getList().empty == false;
 	}
