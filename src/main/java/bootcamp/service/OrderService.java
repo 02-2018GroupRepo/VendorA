@@ -64,10 +64,7 @@ public class OrderService {
 		for(Order order: orders){
 
 			int choice_supplier = cheapestSupplier(order.getId());
-			if(choice_supplier == -1){
-				//nothing was found
-			}
-			else{
+			if(choice_supplier != -1){
 				Invoice invoice = new Invoice();
 				String url;
 				switch(choice_supplier){
