@@ -39,6 +39,13 @@ public class OrderService {
 	@Autowired
 	RestTemplate restTemplate;
 
+	@Autowired
+    PaymentService paymentService;
+
+	@Autowired
+    InventoryService inventoryService;
+
+
 	public void createOrderList(List<InventoryItem> lowInventoryList) {
 		//check suppliers for lowest price
 		//choose my supplier, and send them order
@@ -88,11 +95,11 @@ public class OrderService {
 				}
 
 				double paymentTotal = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
-				//post request to their endpoint
-				//if true
-				//sql command to update our stuff
-				//else
-				//break
+
+				if(paymentService.makePayment(choice_supplier, paymentTotal)){
+				    //todo: succeeded payment and need to update inventory and reduce cash amount
+                    inventoryService.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
+				}
 			}
 		}
 	}

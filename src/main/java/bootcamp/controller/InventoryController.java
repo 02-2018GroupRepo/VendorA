@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bootcamp.model.invoice.Invoice;
+import bootcamp.model.payment.Payment;
 import bootcamp.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,19 @@ public class InventoryController {
 
 	@PostMapping("/order")
 	public Invoice order() {
-		return new Invoice();
+		Product invoicedProduct = new Product();
+		invoicedProduct.setId(1);
+		invoicedProduct.setName("Cola");
+		invoicedProduct.setDescription("");
+		invoicedProduct.setRetail_price(BigDecimal.valueOf(2.00));
+		invoicedProduct.setWholesale_price(BigDecimal.valueOf(1.90));
+		Invoice invoice = new Invoice(invoicedProduct, 5);
+		return invoice;
+	}
+
+	@PostMapping("/payment")
+	public Boolean payment(@RequestBody Payment payment) {
+		return true;
 	}
 
 	@RequestMapping("makeApiCalls")

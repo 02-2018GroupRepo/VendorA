@@ -42,6 +42,10 @@ public class InventoryService {
 			orderService.createOrderList(lowInventoryList);
 		}
 	}
+
+	public void addToInventory(int productID, int quantityAdded, double wholeSalePrice){
+		inventoryDao.addToInventory(productID, quantityAdded, wholeSalePrice);
+	}
 	
 	@Scheduled(cron = "${inventory.status.schedule}")
     public void inventoryStatus() {

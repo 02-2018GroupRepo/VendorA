@@ -25,5 +25,14 @@ public class InventoryDao {
 	public List<InventoryItem> getLowInventory(){
 		return jdbctemplate.query(GET_LOW_INVENTORY_SQL, new BeanPropertyRowMapper<>(InventoryItem.class));
 	}
-	
+
+	public void addToInventory(int productID, int quantityAdded, double wholeSalePrice){
+		String sql1 = "UPDATE inventory SET number_available = number_available +" + quantityAdded + " WHERE id = " + productID;
+
+		String sql2 = "UPDATE product SET wholesale_price = " + wholeSalePrice + ", retail_price = " + wholeSalePrice + " * 1.10 WHERE id = " + productID;
+
+		jdbctemplate.update(sql1);
+		jdbctemplate.update(sql2);
+	}
+
 }

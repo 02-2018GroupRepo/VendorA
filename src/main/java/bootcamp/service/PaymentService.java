@@ -1,6 +1,7 @@
 package bootcamp.service;
 
 import bootcamp.model.invoice.Invoice;
+import bootcamp.model.payment.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,26 +23,29 @@ public class PaymentService {
     @Value("${supplier-c.url}")
     String supplier_c_url;
 
-    public void makePayment(int supplier, double total){
+    public boolean makePayment(int supplier, double total){
 
-//        UriComponentsBuilder builder;
-//        switch(supplier){
-//            case 0:
-//                builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/order").port(8080);
-//                invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
-//                break;
-//            case 1:
-//                builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/order").port(8080);
-//                invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
-//                break;
-//            case 2:
-//                builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/order").port(8080);
-//                invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
-//                break;
-//            default:
-//                break;
-//        }
-
+        UriComponentsBuilder builder;
+        boolean complete = false;
+        //todo: Return type is going to have to be a non-primitive type (can't be boolean)
+        Payment payment = new Payment(total);
+        switch(supplier){
+            case 0:
+                builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/payment").port(8080);
+                complete = restTemplate.postForObject(builder.toUriString(), payment, Boolean.class);
+                break;
+            case 1:
+                builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/payment").port(8080);
+                complete = restTemplate.postForObject(builder.toUriString(), payment, Boolean.class);
+                break;
+            case 2:
+                builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/payment").port(8080);
+                complete = restTemplate.postForObject(builder.toUriString(), payment, Boolean.class);
+                break;
+            default:
+                break;
+        }
+        return complete;
     }
 
 }
