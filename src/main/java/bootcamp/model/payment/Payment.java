@@ -12,16 +12,19 @@ public class Payment {
     public void setInvoiceId(int invoiceId) {
         this.invoiceId = invoiceId;
     }
+
+    public Payment() {}
+
     public Payment(int invoiceId, double total) {
         this.invoiceId = invoiceId;
         this.paymentForProduct = BigDecimal.valueOf(total);
     }
 
-    public BigDecimal getTotal() {
+    public BigDecimal getPaymentForProduct() {
         return paymentForProduct;
     }
 
-    public void setTotal(BigDecimal total) {
+    public void setPaymentForProduct(BigDecimal total) {
         this.paymentForProduct = total;
     }
 }

@@ -70,15 +70,15 @@ public class OrderService {
 				String url;
 				switch(choice_supplier){
 					case 0:
-                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/order").port(8080);
+                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/order").port(8000);
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
 						break;
 					case 1:
-                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/order").port(8080);
+                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/order").port(8000);
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
 						break;
 					case 2:
-                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/order").port(8080);
+                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/order").port(8000);
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
 						break;
 					default:
@@ -153,17 +153,17 @@ public class OrderService {
 		ResponseEntity<InventoryItem[]> responseEntity;
 		switch(i){
 			case 0:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/inventory/all").port(8080);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/inventory/all").port(8000);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
                 supplier_A = Arrays.asList(responseEntity.getBody()); // restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 			case 1:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/inventory/all").port(8080);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/inventory/all").port(8000);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
                 supplier_B = Arrays.asList(responseEntity.getBody());  // restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 			case 2:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/inventory/all").port(8080);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/inventory/all").port(8000);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
 				supplier_C = Arrays.asList(responseEntity.getBody());
 				break;

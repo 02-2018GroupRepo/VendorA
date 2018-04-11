@@ -32,7 +32,13 @@ public class InventoryService {
 
 	public InventoryItem getInventoryItemById(int id){
 		InventoryItem item = new InventoryItem();
-		item = inventoryDao.getInventoryItemById(id).get(0);
+
+		try {
+			item = inventoryDao.getInventoryItemById(id).get(0);
+		}
+		catch (Exception e){
+			return null;
+		}
 		return item;
 	}
 

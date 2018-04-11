@@ -23,10 +23,14 @@ public class InvoiceService {
     ProductService productService;
 
     private Map<Integer, Invoice> invoiceMap = new HashMap<>();
-    private int counter = 1;
+    private int counter = 20;
 
     public Invoice getInvoiceByInvoiceId(int invoiceId) {
         return this.invoiceMap.get(invoiceId);
+    }
+
+    public Boolean checkMapbyInvoiceId(int invoiceId){
+        return invoiceMap.containsKey(invoiceId);
     }
 
     public Invoice createInvoice(Order order) {
@@ -40,11 +44,11 @@ public class InvoiceService {
     }
 
     public Boolean verifyPaymentWithInvoice(Payment payment) {
-        BigDecimal retail_price = getInvoiceByInvoiceId(payment.getInvoiceId()).getProduct().getRetail_price();
-        BigDecimal count = BigDecimal.valueOf(getInvoiceByInvoiceId(payment.getInvoiceId()).getCount());
-        if (payment.getTotal() == (retail_price.multiply(count))) {
+//        BigDecimal retail_price = getInvoiceByInvoiceId(payment.getInvoiceId()).getProduct().getRetail_price();
+//        BigDecimal count = BigDecimal.valueOf(getInvoiceByInvoiceId(payment.getInvoiceId()).getCount());
+        if (checkMapbyInvoiceId(payment.getInvoiceId())) {
             // Add cash to our company
-            company.addCash(payment.getTotal().doubleValue());
+            company.addCash(payment.getPaymentForProduct().doubleValue());
 
             // Get invoice and use it to modify inventory, and check for restock
             Invoice invoice = getInvoiceByInvoiceId(payment.getInvoiceId());

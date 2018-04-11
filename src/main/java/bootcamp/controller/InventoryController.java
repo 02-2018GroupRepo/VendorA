@@ -23,12 +23,13 @@ public class InventoryController {
 
 	@RequestMapping("inventory/all")
 	public List<InventoryItem> showInventory(){
+		log.info("Retreiving inventory");
 		return inventoryService.getInventory();
 	}
 
 	@RequestMapping("inventory/{id}")
     public InventoryItem showInventoryById(@PathVariable Integer id){
-        log.debug("Retreiving product " + id);
+        log.info("Retreiving inventory by " + id);
         return inventoryService.getInventoryItemById(id);
 
     }
