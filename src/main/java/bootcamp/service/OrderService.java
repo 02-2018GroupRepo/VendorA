@@ -1,5 +1,6 @@
 package bootcamp.service;
 
+import bootcamp.dao.InventoryDao;
 import bootcamp.model.company.Company;
 import bootcamp.model.inventory.InventoryItem;
 import bootcamp.model.invoice.Invoice;
@@ -40,7 +41,7 @@ public class OrderService {
     PaymentService paymentService;
 
 	@Autowired
-    InventoryService inventoryService;
+	InventoryDao inventoryDao;
 
 	@Autowired
     Company company;
@@ -87,7 +88,7 @@ public class OrderService {
 				double paymentTotal = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
 				if(paymentTotal <= company.getCash()){
 					if (paymentService.makePayment(choice_supplier, paymentTotal, invoice.getInvoiceId())) {
-						inventoryService.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
+						inventoryDao.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
 						company.subtractCash(paymentTotal);
 					}
 				}

@@ -15,6 +15,10 @@ public class Company {
         return cash;
     }
 
+    public void setCash(double cash) {
+        this.cash = cash;
+    }
+
     public void addCash(double cash) {
         this.cash += cash;
     }
