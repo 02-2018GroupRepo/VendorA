@@ -75,14 +75,14 @@ public class InventoryController {
 	}
 
 	@PostMapping("/payment")
-	public Boolean payment(@RequestBody Payment payment) {
+	public Boolean payment(@RequestBody BigDecimal payment) {
 		return new Boolean(true);
 	}
 
 	@GetMapping("/sendpayment/{total}")
-	public Boolean sendpayment(Double total) {
-		Boolean response = paymentService.makePayment(0, total);
-		return response;
+	public Boolean sendpayment(@PathVariable Double total) {
+		System.out.println("Total is " + total);
+		return paymentService.makePayment(0, total);
 	}
 
 	@RequestMapping("makeApiCalls")

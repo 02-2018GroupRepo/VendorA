@@ -1,12 +1,12 @@
 package bootcamp.service;
 
-import bootcamp.model.invoice.Invoice;
-import bootcamp.model.payment.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.math.BigDecimal;
 
 @Component
 public class PaymentService {
@@ -23,10 +23,10 @@ public class PaymentService {
     @Value("${supplier-c.url}")
     String supplier_c_url;
 
-    public boolean makePayment(int supplier, double total){
+    public Boolean makePayment(int supplier, double total){
         UriComponentsBuilder builder;
         boolean complete = false;
-        Payment payment = new Payment(total);
+        BigDecimal payment = BigDecimal.valueOf(total);
         switch(supplier){
             case 0:
                 builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/payment").port(8080);
