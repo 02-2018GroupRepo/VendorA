@@ -70,7 +70,7 @@ public class InventoryController {
 		invoicedProduct.setDescription("");
 		invoicedProduct.setRetail_price(BigDecimal.valueOf(2.00));
 		invoicedProduct.setWholesale_price(BigDecimal.valueOf(1.90));
-		Invoice invoice = new Invoice(invoicedProduct, 5);
+		Invoice invoice = new Invoice(1, invoicedProduct, 5);
 		return invoice;
 	}
 
@@ -82,7 +82,7 @@ public class InventoryController {
 	@GetMapping("/sendpayment/{total}")
 	public Boolean sendpayment(@PathVariable Double total) {
 		System.out.println("Total is " + total);
-		return paymentService.makePayment(0, total);
+		return paymentService.makePayment(0, total, 1);
 	}
 
 	@RequestMapping("makeApiCalls")
