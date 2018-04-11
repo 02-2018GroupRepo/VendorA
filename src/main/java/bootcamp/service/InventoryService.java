@@ -1,19 +1,16 @@
 package bootcamp.service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import bootcamp.dao.InventoryDao;
+import bootcamp.model.inventory.InventoryItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import bootcamp.dao.InventoryDao;
-import bootcamp.model.inventory.InventoryItem;
-import bootcamp.model.products.Product;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class InventoryService {
@@ -35,7 +32,13 @@ public class InventoryService {
 	public List<InventoryItem> getInventory(){
 		return inventoryDao.getInventory();
 	}
-	
+
+	public InventoryItem getInventoryItemById(int id){
+		InventoryItem item = new InventoryItem();
+		item = inventoryDao.getInventoryItemById(id).get(0);
+		return item;
+	}
+
 	public void checkInventoryForRestock() {
 		List<InventoryItem> lowInventoryList = inventoryDao.getLowInventory();
 		if (lowInventoryList.isEmpty() == false) {

@@ -1,11 +1,10 @@
 package bootcamp.controller;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
+import bootcamp.model.inventory.InventoryItem;
 import bootcamp.model.invoice.Invoice;
 import bootcamp.model.payment.Payment;
+import bootcamp.model.products.Product;
+import bootcamp.service.InventoryService;
 import bootcamp.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +16,11 @@ import bootcamp.model.products.Product;
 import bootcamp.service.InventoryService;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @RestController
 public class InventoryController {
@@ -35,6 +39,13 @@ public class InventoryController {
 	public List<InventoryItem> showInventory(){
 		return inventoryService.getInventory();
 	}
+
+	@RequestMapping("inventory/{id}")
+    public InventoryItem showInventoryById(@PathVariable Integer id){
+        log.debug("Retreiving product " + id);
+        return inventoryService.getInventoryItemById(id);
+
+    }
 
 	@RequestMapping("/testLowestPrice")
 	public void testLowestPrice() {
