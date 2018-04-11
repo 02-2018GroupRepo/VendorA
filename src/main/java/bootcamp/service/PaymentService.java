@@ -24,10 +24,8 @@ public class PaymentService {
     String supplier_c_url;
 
     public boolean makePayment(int supplier, double total){
-
         UriComponentsBuilder builder;
         boolean complete = false;
-        //todo: Return type is going to have to be a non-primitive type (can't be boolean)
         Payment payment = new Payment(total);
         switch(supplier){
             case 0:

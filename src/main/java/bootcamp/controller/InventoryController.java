@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import bootcamp.model.inventory.InventoryItem;
 import bootcamp.model.products.Product;
 import bootcamp.service.InventoryService;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 public class InventoryController {
@@ -25,6 +27,9 @@ public class InventoryController {
 	private OrderService orderService;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@RequestMapping("inventory/all")
 	public List<InventoryItem> showInventory(){
@@ -56,7 +61,7 @@ public class InventoryController {
 
 	@PostMapping("/payment")
 	public Boolean payment(@RequestBody Payment payment) {
-		return true;
+		return new Boolean(true);
 	}
 
 	@RequestMapping("makeApiCalls")
