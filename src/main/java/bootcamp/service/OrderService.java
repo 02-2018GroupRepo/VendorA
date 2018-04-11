@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import bootcamp.model.company.Company;
 import bootcamp.model.invoice.Invoice;
 import bootcamp.model.order.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,27 +46,27 @@ public class OrderService {
 	@Autowired
     InventoryService inventoryService;
 
+	@Autowired
+    Company company;
+
 
 	public void createOrderList(List<InventoryItem> lowInventoryList) {
-		//check suppliers for lowest price
-		//choose my supplier, and send them order
-		makeApiCalls();
-		List<Order> orderList = new ArrayList<>();
-		int orderAmount;
-		for(InventoryItem i : lowInventoryList){
-		    if(i.getNumber_available() == 0){
-		        orderAmount = 10;
-            }
-            else
-                orderAmount = i.getNumber_available();
-			Order order = new Order(i.getId(), orderAmount);
-			orderList.add(order);
-		}
-		makeOrder(orderList);
-	}
+        //check suppliers for lowest price
+        //choose my supplier, and send them order
+        makeApiCalls();
+        List<Order> orderList = new ArrayList<>();
+        int orderTotal = 0;
+        for (InventoryItem i : lowInventoryList) {
+            orderTotal += i.getRetail_price().doubleValue() * 10;
+            Order order = new Order(i.getId(), 10);
+            if (orderTotal <= company.getCash())
+                orderList.add(order);
+        }
+        if (!orderList.isEmpty())
+            makeOrder(orderList);
+    }
 
 	public void makeOrder(List<Order> orders){
-
 		//tells us which supplier has it cheaper
 		UriComponentsBuilder builder;
 		for(Order order: orders){
@@ -93,12 +94,10 @@ public class OrderService {
 					default:
 						break;
 				}
-
 				double paymentTotal = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
-
-				if(paymentService.makePayment(choice_supplier, paymentTotal)){
-				    //todo: succeeded payment and need to update inventory and reduce cash amount
+				if(paymentService.makePayment(choice_supplier, paymentTotal)) {
                     inventoryService.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
+				    company.subtractCash(paymentTotal);
 				}
 			}
 		}

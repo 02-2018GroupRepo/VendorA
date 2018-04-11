@@ -9,14 +9,18 @@ public class Company {
     @Autowired
     InventoryService inventoryService;
 
-    double cash = 5000.00;
+    private double cash = 5000.00;
 
     public double getCash() {
         return cash;
     }
 
-    public void setCash(double cash) {
-        this.cash = cash;
+    public void addCash(double cash) {
+        this.cash += cash;
+    }
+
+    public void subtractCash(double cash) {
+        this.cash -= cash;
     }
 
     public double getInventoryValue() {
