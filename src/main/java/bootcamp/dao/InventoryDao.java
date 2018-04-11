@@ -43,4 +43,9 @@ public class InventoryDao {
 		jdbctemplate.update(sql2);
 	}
 
+	public void removeFromInventory(int productID, int quantityRemoved){
+		String sql_reduce_item = "Update Inventory SET number_available = number_available - " + quantityRemoved + " WHERE id = " + productID;
+		jdbctemplate.update(sql_reduce_item);
+	}
+
 }

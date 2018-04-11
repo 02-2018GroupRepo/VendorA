@@ -42,6 +42,10 @@ public class InventoryService {
 		}
 	}
 
+	public void removeFromInventory(int productID, int quantityRemoved){
+		inventoryDao.removeFromInventory(productID, quantityRemoved);
+	}
+
 	public void addToInventory(int productID, int quantityAdded, double wholeSalePrice){
 		inventoryDao.addToInventory(productID, quantityAdded, wholeSalePrice);
 	}
