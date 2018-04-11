@@ -48,7 +48,7 @@ public class InvoiceService {
 //        BigDecimal count = BigDecimal.valueOf(getInvoiceByInvoiceId(payment.getInvoiceId()).getCount());
         if (checkMapbyInvoiceId(payment.getInvoiceId())) {
             // Add cash to our company
-            company.addCash(payment.getPaymentForProduct().doubleValue());
+            company.addCash(payment.getPaymentForProduct().setScale(2, BigDecimal.ROUND_DOWN).doubleValue());
 
             // Get invoice and use it to modify inventory, and check for restock
             Invoice invoice = getInvoiceByInvoiceId(payment.getInvoiceId());
