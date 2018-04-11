@@ -5,6 +5,7 @@ import bootcamp.model.inventory.InventoryItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,7 @@ public class InventoryService {
 		return item;
 	}
 
+	@Async
 	public void checkInventoryForRestock() {
 		List<InventoryItem> lowInventoryList = inventoryDao.getLowInventory();
 		if (lowInventoryList.isEmpty() == false) {
@@ -60,9 +62,9 @@ public class InventoryService {
 		return value;
 	}
 	
-	@Scheduled(cron = "${inventory.status.schedule}")
-    public void inventoryStatus() {
-        log.info("Checking on inventory status at {}", dateFormat.format(new Date()));
-        log.debug("Debug goes here");
-    }
+//	@Scheduled(cron = "${inventory.status.schedule}")
+//    public void inventoryStatus() {
+//        log.info("Checking on inventory status at {}", dateFormat.format(new Date()));
+//        log.debug("Debug goes here");
+//    }
 }

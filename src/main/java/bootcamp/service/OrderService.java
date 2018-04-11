@@ -152,21 +152,18 @@ public class OrderService {
 		ResponseEntity<InventoryItem[]> responseEntity;
 		switch(i){
 			case 0:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/inventory/A").port(8080);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/inventory/all").port(8080);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
-                System.out.println(responseEntity.toString());
                 supplier_A = Arrays.asList(responseEntity.getBody()); // restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 			case 1:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/inventory/B").port(8080);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/inventory/all").port(8080);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
-                System.out.println(responseEntity.toString());
                 supplier_B = Arrays.asList(responseEntity.getBody());  // restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 			case 2:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/inventory/C").port(8080);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/inventory/all").port(8080);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
-                System.out.println(responseEntity.toString());
 				supplier_C = Arrays.asList(responseEntity.getBody());
 				break;
 				default:
