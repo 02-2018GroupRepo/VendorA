@@ -1,14 +1,12 @@
 package bootcamp.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import bootcamp.model.inventory.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import bootcamp.model.inventory.InventoryItem;
+import java.util.List;
 
 @Component
 public class InventoryDao {
@@ -21,7 +19,12 @@ public class InventoryDao {
 	public List<InventoryItem> getInventory() {
 		return jdbctemplate.query(GET_ALL_INVENTORY_SQL, new BeanPropertyRowMapper<>(InventoryItem.class));
 	}
-	
+
+	public List<InventoryItem> getInventoryItemById(int id){
+		String sql = "SELECT product.ID, inventory.number_available, retail_price FROM PRODUCT, INVENTORY WHERE product.id = inventory.id AND product.id = " + id;
+		return jdbctemplate.query(sql, new BeanPropertyRowMapper<>(InventoryItem.class));
+	}
+
 	public List<InventoryItem> getLowInventory(){
 		return jdbctemplate.query(GET_LOW_INVENTORY_SQL, new BeanPropertyRowMapper<>(InventoryItem.class));
 	}
