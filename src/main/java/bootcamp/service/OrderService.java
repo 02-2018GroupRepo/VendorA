@@ -51,14 +51,10 @@ public class OrderService {
         //choose my supplier, and send them order
         makeApiCalls();
         List<Order> orderList = new ArrayList<>();
-        int orderTotal = 0;
         for (InventoryItem i : lowInventoryList) {
-            orderTotal += i.getRetail_price().doubleValue() * 10;
             Order order = new Order(i.getId(), 10);
-            if (orderTotal <= company.getCash())
-                orderList.add(order);
+            orderList.add(order);
         }
-        if (!orderList.isEmpty())
             makeOrder(orderList);
     }
 
@@ -90,10 +86,13 @@ public class OrderService {
 					default:
 						break;
 				}
+
 				double paymentTotal = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
-				if(paymentService.makePayment(choice_supplier, paymentTotal, invoice.getInvoiceId())){
-                    inventoryService.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
-				    company.subtractCash(paymentTotal);
+				if(paymentTotal <= company.getCash()){
+					if (paymentService.makePayment(choice_supplier, paymentTotal, invoice.getInvoiceId())) {
+						inventoryService.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
+						company.subtractCash(paymentTotal);
+					}
 				}
 			}
 		}
