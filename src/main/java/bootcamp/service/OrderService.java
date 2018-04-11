@@ -44,8 +44,14 @@ public class OrderService {
 		//choose my supplier, and send them order
 		makeApiCalls();
 		List<Order> orderList = new ArrayList<>();
+		int orderAmount;
 		for(InventoryItem i : lowInventoryList){
-			Order order = new Order(i.getId(), i.getNumber_available());
+		    if(i.getNumber_available() == 0){
+		        orderAmount = 10;
+            }
+            else
+                orderAmount = i.getNumber_available();
+			Order order = new Order(i.getId(), orderAmount);
 			orderList.add(order);
 		}
 		makeOrder(orderList);
@@ -81,8 +87,7 @@ public class OrderService {
 						break;
 				}
 
-				//pay them this shit
-				double temp = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
+				double paymentTotal = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
 				//post request to their endpoint
 				//if true
 				//sql command to update our stuff
@@ -115,21 +120,22 @@ public class OrderService {
 
 		BigDecimal[] prices = {price_1,price_2,price_3};
 		BigDecimal minValue = BigDecimal.valueOf(0);
-		boolean found =false;
-		int lowestPriceIndex=-1;
+		boolean found = false;
+		int lowestPriceIndex = -1;
 		for (BigDecimal b: prices){
 			if(b != BigDecimal.valueOf(0)) {
 				minValue = b;
 				found = true;
-
+                break;
 			}
-			break;
 		}
 		if(found) {
 			for (int i = 0; i < 3; i++) {
-				if ((prices[i].compareTo(minValue) >= 0 && prices[i].compareTo(BigDecimal.valueOf(0.0)) != 0)) {
-					minValue = prices[i];
-					lowestPriceIndex = i;
+				if (prices[i] != BigDecimal.valueOf(0)) {
+					if (prices[i].compareTo(minValue) <= 0) {
+                        minValue = prices[i];
+                        lowestPriceIndex = i;
+                    }
 				}
 			}
 		}

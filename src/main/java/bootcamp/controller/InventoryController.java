@@ -30,8 +30,8 @@ public class InventoryController {
 		return inventoryService.getInventory();
 	}
 
-	@RequestMapping("/logician")
-	public void logicmagic() {
+	@RequestMapping("/testLowestPrice")
+	public void testLowestPrice() {
 		InventoryItem inventoryItem = new InventoryItem();
 		inventoryItem.setId(1);
 		inventoryItem.setRetail_price(BigDecimal.valueOf(1.00));
@@ -46,7 +46,7 @@ public class InventoryController {
 		return new Invoice();
 	}
 
-	@RequestMapping("pingstuff")
+	@RequestMapping("makeApiCalls")
 	public void pingStuff() {
 		orderService.makeApiCalls();
 	}
