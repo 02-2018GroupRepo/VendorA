@@ -24,10 +24,6 @@ public class InventoryService {
 	 
 	 @Autowired
 	 private SimpleDateFormat dateFormat;
-	
-//	public void receiveInventory(List<Product> products) {
-//		inventoryList.addAll(products);
-//	}
 
 	public List<InventoryItem> getInventory(){
 		return inventoryDao.getInventory();
@@ -48,6 +44,16 @@ public class InventoryService {
 
 	public void addToInventory(int productID, int quantityAdded, double wholeSalePrice){
 		inventoryDao.addToInventory(productID, quantityAdded, wholeSalePrice);
+	}
+
+	public double getInventoryWholeSaleValue() {
+		List<InventoryItem> inventoryItems = inventoryDao.getInventoryWholeSale();
+		double value = 0;
+		for (InventoryItem item: inventoryItems) {
+			value += (double)item.getNumber_available() * item.getRetail_price().doubleValue();
+			// Retail price is actually the wholesale price due to the DAO query
+		}
+		return value;
 	}
 	
 	@Scheduled(cron = "${inventory.status.schedule}")

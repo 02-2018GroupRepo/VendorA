@@ -15,9 +15,14 @@ public class InventoryDao {
 	
 	private final String GET_ALL_INVENTORY_SQL = "SELECT product.ID, inventory.number_available, retail_price FROM PRODUCT, INVENTORY WHERE product.id = inventory.id";
 	private final String GET_LOW_INVENTORY_SQL = "SELECT id, number_available FROM inventory WHERE number_available < 10";
-	
+	private final String GET_ALL_INVENTORY_WHOLESALE_SQL = "SELECT product.ID, inventory.number_available, wholesale_price AS retail_price FROM PRODUCT, INVENTORY WHERE product.id = inventory.id";
+
 	public List<InventoryItem> getInventory() {
 		return jdbctemplate.query(GET_ALL_INVENTORY_SQL, new BeanPropertyRowMapper<>(InventoryItem.class));
+	}
+
+	public List<InventoryItem> getInventoryWholeSale() {
+		return jdbctemplate.query(GET_ALL_INVENTORY_WHOLESALE_SQL, new BeanPropertyRowMapper<>(InventoryItem.class));
 	}
 
 	public List<InventoryItem> getInventoryItemById(int id){
