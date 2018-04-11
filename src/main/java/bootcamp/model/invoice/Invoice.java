@@ -4,14 +4,24 @@ import bootcamp.model.products.Product;
 
 public class Invoice {
 
+	private int invoiceId;
 	private Product product;
 	private int count;
 
 	public Invoice() {}
 
-	public Invoice(Product product, Integer count) {
+	public Invoice(int invoiceId, Product product, Integer count) {
+		this.invoiceId = invoiceId;
 		this.product = product;
 		this.count = count;
+	}
+
+	public int getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(int invoiceId) {
+		this.invoiceId = invoiceId;
 	}
 
 	public Product getProduct() {

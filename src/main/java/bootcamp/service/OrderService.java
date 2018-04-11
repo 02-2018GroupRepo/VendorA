@@ -1,12 +1,7 @@
 package bootcamp.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import bootcamp.model.company.Company;
+import bootcamp.model.inventory.InventoryItem;
 import bootcamp.model.invoice.Invoice;
 import bootcamp.model.order.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import bootcamp.model.inventory.InventoryItem;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class OrderService {
@@ -95,7 +91,7 @@ public class OrderService {
 						break;
 				}
 				double paymentTotal = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
-				if(paymentService.makePayment(choice_supplier, paymentTotal)) {
+				if(paymentService.makePayment(choice_supplier, paymentTotal, invoice.getInvoiceId())){
                     inventoryService.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
 				    company.subtractCash(paymentTotal);
 				}

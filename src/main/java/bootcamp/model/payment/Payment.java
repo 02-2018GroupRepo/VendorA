@@ -3,17 +3,25 @@ package bootcamp.model.payment;
 import java.math.BigDecimal;
 
 public class Payment {
-    private BigDecimal total;
+    private int invoiceId;
+    private BigDecimal paymentForProduct;
 
-    public Payment(double total) {
-        this.total = BigDecimal.valueOf(total);
+    public int getInvoiceID() {
+        return invoiceId;
+    }
+    public void setInvoiceID(int invoiceId) {
+        this.invoiceId = invoiceId;
+    }
+    public Payment(int invoiceId, double total) {
+        this.invoiceId = invoiceId;
+        this.paymentForProduct = BigDecimal.valueOf(total);
     }
 
     public BigDecimal getTotal() {
-        return total;
+        return paymentForProduct;
     }
 
     public void setTotal(BigDecimal total) {
-        this.total = total;
+        this.paymentForProduct = total;
     }
 }
