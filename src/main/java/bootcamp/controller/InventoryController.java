@@ -6,6 +6,7 @@ import bootcamp.model.payment.Payment;
 import bootcamp.model.products.Product;
 import bootcamp.service.InventoryService;
 import bootcamp.service.OrderService;
+import bootcamp.service.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class InventoryController {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private PaymentService paymentService;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -73,6 +77,12 @@ public class InventoryController {
 	@PostMapping("/payment")
 	public Boolean payment(@RequestBody Payment payment) {
 		return new Boolean(true);
+	}
+
+	@GetMapping("/sendpayment/{total}")
+	public Boolean sendpayment(Double total) {
+		Boolean response = paymentService.makePayment(0, total);
+		return response;
 	}
 
 	@RequestMapping("makeApiCalls")
