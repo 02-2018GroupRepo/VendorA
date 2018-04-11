@@ -2,7 +2,7 @@
 # Compiled class file
 *.class
 .factorypath
-.idea
+.idea/
 service-project.iml
 # Log file
 *.log
