@@ -6,10 +6,10 @@ public class Payment {
     private int invoiceId;
     private BigDecimal paymentForProduct;
 
-    public int getInvoiceID() {
+    public int getInvoiceId() {
         return invoiceId;
     }
-    public void setInvoiceID(int invoiceId) {
+    public void setInvoiceId(int invoiceId) {
         this.invoiceId = invoiceId;
     }
     public Payment(int invoiceId, double total) {

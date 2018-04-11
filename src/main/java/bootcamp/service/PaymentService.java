@@ -9,7 +9,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 public class PaymentService {
-
     @Autowired
     RestTemplate restTemplate;
 

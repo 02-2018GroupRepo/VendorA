@@ -74,11 +74,6 @@ public class InventoryController {
 		return invoice;
 	}
 
-	@PostMapping("/payment")
-	public Boolean payment(@RequestBody BigDecimal payment) {
-		return new Boolean(true);
-	}
-
 	@GetMapping("/sendpayment/{total}")
 	public Boolean sendpayment(@PathVariable Double total) {
 		System.out.println("Total is " + total);
