@@ -22,7 +22,7 @@ public class OrderController {
 
     @PostMapping("/order")
     public Invoice order(@RequestBody Order order) {
-        log.info("Received order of: " + order.getId() + " " + order.getQuantity());
+        log.info("Received order of: ID= " + order.getId() + " Quantity=" + order.getQuantity());
         return invoiceService.createInvoice(order);
     }
 }
