@@ -37,7 +37,7 @@ public class InventoryDao {
 	public void addToInventory(int productID, int quantityAdded, double wholeSalePrice){
 		String sql1 = "UPDATE inventory SET number_available = number_available +" + quantityAdded + " WHERE id = " + productID;
 
-		String sql2 = "UPDATE product SET wholesale_price = " + wholeSalePrice + ", retail_price = " + wholeSalePrice + " * 1.10 WHERE id = " + productID;
+		String sql2 = "UPDATE product SET wholesale_price = " + wholeSalePrice + ", retail_price = " + wholeSalePrice + " * 1.20 WHERE id = " + productID;
 
 		jdbctemplate.update(sql1);
 		jdbctemplate.update(sql2);

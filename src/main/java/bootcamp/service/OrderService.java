@@ -5,6 +5,8 @@ import bootcamp.model.company.Company;
 import bootcamp.model.inventory.InventoryItem;
 import bootcamp.model.invoice.Invoice;
 import bootcamp.model.order.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +48,7 @@ public class OrderService {
 	@Autowired
     Company company;
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	public void createOrderList(List<InventoryItem> lowInventoryList) {
         //check suppliers for lowest price
@@ -65,33 +68,49 @@ public class OrderService {
 		for(Order order: orders){
 
 			int choice_supplier = cheapestSupplier(order.getId());
+			//boolean soldOut = false;
 			if(choice_supplier != -1){
 				Invoice invoice = new Invoice();
 				String url;
 				switch(choice_supplier){
 					case 0:
-                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/order").port(5500);
+//						for(int i = 0; i < supplier_A.size(); i++){
+//							if(order.getId() == supplier_A.get(i).getId())
+//								if(supplier_A.get(i).getNumber_available() < 10)
+//									order.setQuantity(supplier_A.get(i).getNumber_available());
+//							if(supplier_A.get(i).getNumber_available() == 0)
+//								soldOut = true;
+//						}
+//						if(soldOut)
+//							break;
+                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/order").port(8080);
+                        log.info("Sending out order to supplier");
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
+						log.info("Received invoice from supplier");
 						break;
 					case 1:
-                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/order").port(5501);
+                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/order").port(8080);
+						log.info("Sending out order to supplier");
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
+						log.info("Received invoice from supplier");
 						break;
 					case 2:
-                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/order").port(5502);
+                        builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/order").port(8080);
+						log.info("Sending out order to supplier");
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
+						log.info("Received invoice from supplier");
 						break;
 					default:
 						break;
 				}
-
-				double paymentTotal = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
-				if(paymentTotal <= company.getCash()){
-					if (paymentService.makePayment(choice_supplier, paymentTotal, invoice.getInvoiceId())) {
-						inventoryDao.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
-						company.subtractCash(paymentTotal);
+					double paymentTotal = invoice.getProduct().getRetail_price().doubleValue() * invoice.getCount();
+					if (paymentTotal <= company.getCash()) {
+						if (paymentService.makePayment(choice_supplier, paymentTotal, invoice.getInvoiceId())) {
+							inventoryDao.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
+							company.subtractCash(paymentTotal);
+							log.info("Payment sent to supplier and inventory stocked");
+						}
 					}
-				}
 			}
 		}
 	}
@@ -153,17 +172,17 @@ public class OrderService {
 		ResponseEntity<InventoryItem[]> responseEntity;
 		switch(i){
 			case 0:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/inventory/all").port(5500);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/inventory/all").port(8080);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
                 supplier_A = Arrays.asList(responseEntity.getBody()); // restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 			case 1:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/inventory/all").port(5501);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/inventory/all").port(8080);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
                 supplier_B = Arrays.asList(responseEntity.getBody());  // restTemplate.getForObject(builder.toUriString(),List.class );
 				break;
 			case 2:
-				builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/inventory/all").port(5502);
+				builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/inventory/all").port(8080);
                 responseEntity = restTemplate.getForEntity(builder.toUriString(), InventoryItem[].class);
 				supplier_C = Arrays.asList(responseEntity.getBody());
 				break;

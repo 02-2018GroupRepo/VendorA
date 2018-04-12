@@ -6,7 +6,11 @@ public class InventoryItem {
 	private int id;
 	private int number_available;
 	private BigDecimal retail_price;
-	
+
+	public InventoryItem() {
+
+	}
+
 	public int getId() {
 		return id;
 	}
