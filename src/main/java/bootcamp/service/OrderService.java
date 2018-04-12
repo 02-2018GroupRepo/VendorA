@@ -84,21 +84,21 @@ public class OrderService {
 //						if(soldOut)
 //							break;
                         builder = UriComponentsBuilder.fromUriString("http://" + supplier_a_url + "/order").port(8080);
-                        log.info("Sending out order to supplier");
+                        log.info("Sending out order to supplier: ID=" + order.getId() + " Quantity=" + order.getQuantity());
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
-						log.info("Received invoice from supplier");
+						log.info("Received invoice from supplier: InvoiceID=" + invoice.getInvoiceId() + " Count=" + invoice.getCount());
 						break;
 					case 1:
                         builder = UriComponentsBuilder.fromUriString("http://" + supplier_b_url + "/order").port(8080);
-						log.info("Sending out order to supplier");
+						log.info("Sending out order to supplier: ID=" + order.getId() + " Quantity=" + order.getQuantity());
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
-						log.info("Received invoice from supplier");
+						log.info("Received invoice from supplier: InvoiceID=" + invoice.getInvoiceId() + " Count=" + invoice.getCount());
 						break;
 					case 2:
                         builder = UriComponentsBuilder.fromUriString("http://" + supplier_c_url + "/order").port(8080);
-						log.info("Sending out order to supplier");
+						log.info("Sending out order to supplier: ID=" + order.getId() + " Quantity=" + order.getQuantity());
 						invoice = restTemplate.postForObject(builder.toUriString(),order, Invoice.class);
-						log.info("Received invoice from supplier");
+						log.info("Received invoice from supplier: InvoiceID=" + invoice.getInvoiceId() + " Count=" + invoice.getCount());
 						break;
 					default:
 						break;
@@ -108,7 +108,7 @@ public class OrderService {
 						if (paymentService.makePayment(choice_supplier, paymentTotal, invoice.getInvoiceId())) {
 							inventoryDao.addToInventory(order.getId(), order.getQuantity(), invoice.getProduct().getRetail_price().doubleValue());
 							company.subtractCash(paymentTotal);
-							log.info("Payment sent to supplier and inventory stocked");
+							log.info("Payment of " + paymentTotal + " sent to supplier and inventory stocked");
 						}
 					}
 			}
